@@ -1,0 +1,26 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        # clones repo onto the runner
+        uses: actions/checkout@v4
+      - name: Setup
+        # installs Node v24 on runner
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+      - name: Dependencies
+        # deletes node_modules and installs dependencies
+        run: npm ci
+      - name: Migrations
+        # runs the src/db/migration.js file with node
+        run: node src/db/migration.js
