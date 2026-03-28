@@ -12,6 +12,8 @@ async function buildEmployees() {
   )`;
   } catch (err) {
     console.log(err.message);
+  } finally {
+    await sql.end(); // Close the connection pool
   }
 }
 
